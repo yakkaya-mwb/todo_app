@@ -14,32 +14,36 @@ function App () {
 
   const handleAddTodo = () => {
     if (inputValue.trim() !== '') {
-      setTodos([...todos, { id: Date.now(), text: inputValue, completed: false }])
+      const newTodo = {
+        id: Date.now(),
+        text: inputValue,
+        completed: false
+      }
+
+      setTodos([...todos, newTodo])
       setInputValue('')
     }
   }
 
   const handleToggleComplete = (index) => {
-    const updatedTodos = [...todos]
-    const updatedTodo = updatedTodos[index]
-    updatedTodo.completed = !updatedTodo.completed
+    const updatedTodos = todos.map((todo, i) => {
+      if (i === index) {
+        return { ...todo, completed: !todo.completed }
+      }
+      return todo
+    })
+
     setTodos(updatedTodos)
 
-    if(updatedTodo.completed){
-      setCompletedTodos([...completedTodos, updatedTodo])
-    }
-    else{
-      const updatedCompletedTodos = completedTodos.filter(
-        (todo) => todo !== updatedTodo
-      )
-      setCompletedTodos(updatedCompletedTodos)
-    }
+    const updatedCompletedTodos = updatedTodos.filter((todo) => todo.completed)
+    setCompletedTodos(updatedCompletedTodos)
   }
 
   const handleDeleteTodo = (id) => {
     const updatedTodos = todos.filter((todo) => {
       return todo.id !== id || !todo.completed
     })
+
     setTodos(updatedTodos)
 
     const updatedCompleted = completedTodos.filter((todo) => {
