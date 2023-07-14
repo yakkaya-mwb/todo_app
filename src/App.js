@@ -1,4 +1,6 @@
 import React from './index.js'
+import TodoInput from './TodoInput'
+import TodoList from './TodoList'
 import { useState } from 'react'
 
 function App () {
@@ -48,41 +50,18 @@ function App () {
   return (
     <div className= "App">
       <h1>Todo List</h1>
-      <div className="input-container">
-          <input
-            type="text"
-            value={inputValue}
-            onChange={handleInputChange}
-            placeholder="Enter a task"
-          />
-          <button onClick={handleAddTodo}>Add</button>
-      </div>
+      <TodoInput
+        inputValue={inputValue}
+        handleInputChange={handleInputChange}
+        handleAddTodo={handleAddTodo}
+        />
       <div className="list-container">
-        <div className="active" id="todo-container">
-          <h2>active todos</h2>
-            <ul>
-              {todos.map((todo, index) => (
-                <li
-                  key={index}
-                  style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}
-                  onClick={() => handleToggleComplete(index)}
-                >
-                  {todo.text}
-                </li>
-              ))}
-            </ul>
-        </div>
-        <div className="completed" id="todo-container">
-          <h2>completed todos</h2>
-          <ul>
-            {completedTodos.map((todo, index) => (
-              <li key={index}>
-              <span>{todo.text}</span>
-              {todo.completed && <button onClick={() => handleDeleteTodo(todo.id)}>Delete</button>}
-            </li>
-            ))}
-          </ul>
-        </div>
+        <TodoList
+          todos={todos}
+          completedTodos={completedTodos}
+          handleToggleComplete={handleToggleComplete}
+          handleDeleteTodo={handleDeleteTodo}
+          />
       </div>
     </div>
   )
