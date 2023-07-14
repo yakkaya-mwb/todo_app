@@ -3,55 +3,50 @@ import TodoInput from './TodoInput'
 import TodoList from './TodoList'
 import { useState } from 'react'
 
-function App() {
-  const [todos, setTodos] = useState([]);
-  const [completedTodos, setCompletedTodos] = useState([]);
-  const [inputValue, setInputValue] = useState('');
-  
-    const handleInputChange = (event) => {
-      setInputValue(event.target.value);
-    };
-  
-    const handleAddTodo = () => {
-      if (inputValue.trim() !== '') {
-        const newTodo = {
-          id: Date.now(),
-          text: inputValue,
-          completed: false,
-        };
+function App () {
+  const [todos, setTodos] = useState([])
+  const [completedTodos, setCompletedTodos] = useState([])
+  const [inputValue, setInputValue] = useState('')
 
-      setTodos([...todos, newTodo]);
-      setInputValue('');
-      }
-    };
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value)
+  }
 
-    const handleToggleComplete = (index) => {
-      const updatedTodos = todos.map((todo, i) => {
-        if (i === index) {
-          return { ...todo, completed: !todo.completed };
-        }
-        return todo;
-      });
-
-      setTodos(updatedTodos);
-
-      const updatedCompletedTodos = updatedTodos.filter((todo) => todo.completed);
-      setCompletedTodos(updatedCompletedTodos);
+  const handleAddTodo = () => {
+    if (inputValue.trim() !== '') {
+      setTodos([...todos, { id: Date.now(), text: inputValue, completed: false }])
+      setInputValue('')
     }
+  }
 
-    const handleDeleteTodo = (id) => {
-      const updatedTodos = todos.filter((todo) => {
-        return todo.id !== id || !todo.completed;
-      });
+  const handleToggleComplete = (index) => {
+    const updatedTodos = [...todos]
+    const updatedTodo = updatedTodos[index]
+    updatedTodo.completed = !updatedTodo.completed
+    setTodos(updatedTodos)
 
-      setTodos(updatedTodos);
+    if(updatedTodo.completed){
+      setCompletedTodos([...completedTodos, updatedTodo])
+    }
+    else{
+      const updatedCompletedTodos = completedTodos.filter(
+        (todo) => todo !== updatedTodo
+      )
+      setCompletedTodos(updatedCompletedTodos)
+    }
+  }
 
-      const updatedCompleted = completedTodos.filter((todo) => {
-        return todo.id !== id || !todo.completed;
-      });
+  const handleDeleteTodo = (id) => {
+    const updatedTodos = todos.filter((todo) => {
+      return todo.id !== id || !todo.completed
+    })
+    setTodos(updatedTodos)
 
-      setCompletedTodos(updatedCompleted);
-    };
+    const updatedCompleted = completedTodos.filter((todo) => {
+      return todo.id !== id || !todo.completed
+    })
+    setCompletedTodos(updatedCompleted)
+  }
 
   return (
     <div className= "App">
@@ -70,7 +65,7 @@ function App() {
           />
       </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
