@@ -1,11 +1,7 @@
-<<<<<<< Updated upstream
-import { useState } from 'react';
-=======
 import React from './index.js'
 import TodoInput from './TodoInput'
 import TodoList from './TodoList'
 import { useState } from 'react'
->>>>>>> Stashed changes
 
 function App() {
   const [todos, setTodos] = useState([]);
