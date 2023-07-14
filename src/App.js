@@ -14,37 +14,42 @@ function App() {
   
     const handleAddTodo = () => {
       if (inputValue.trim() !== '') {
-        setTodos([...todos, { id: Date.now(), text: inputValue, completed: false }]);
-        setInputValue('');
+        const newTodo = {
+          id: Date.now(),
+          text: inputValue,
+          completed: false,
+        };
+
+      setTodos([...todos, newTodo]);
+      setInputValue('');
       }
     };
 
     const handleToggleComplete = (index) => {
-        const updatedTodos = [...todos];
-        const updatedTodo = updatedTodos[index];
-        updatedTodo.completed = !updatedTodo.completed;
-        setTodos(updatedTodos);
+      const updatedTodos = todos.map((todo, i) => {
+        if (i === index) {
+          return { ...todo, completed: !todo.completed };
+        }
+        return todo;
+      });
 
-        if(updatedTodo.completed){
-          setCompletedTodos([...completedTodos, updatedTodo]);
-        }
-        else{
-          const updatedCompletedTodos = completedTodos.filter(
-            (todo) => todo !== updatedTodo
-          );
-          setCompletedTodos(updatedCompletedTodos);
-        }
-    };
+      setTodos(updatedTodos);
+
+      const updatedCompletedTodos = updatedTodos.filter((todo) => todo.completed);
+      setCompletedTodos(updatedCompletedTodos);
+    }
 
     const handleDeleteTodo = (id) => {
       const updatedTodos = todos.filter((todo) => {
         return todo.id !== id || !todo.completed;
       });
+
       setTodos(updatedTodos);
 
       const updatedCompleted = completedTodos.filter((todo) => {
         return todo.id !== id || !todo.completed;
       });
+
       setCompletedTodos(updatedCompleted);
     };
 
