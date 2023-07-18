@@ -1,75 +1,87 @@
-import React from './index.js'
+import React, { useReducer } from 'react'
 import TodoInput from './TodoInput'
 import TodoList from './TodoList'
-import { useState } from 'react'
+import CompletedTodos from './CompletedTodos'
 
-function App () {
-  const [todos, setTodos] = useState([])
-  const [completedTodos, setCompletedTodos] = useState([])
-  const [inputValue, setInputValue] = useState('')
+const ADD_TODO = 'ADD_TODO'
+const TOGGLE_COMPLETE = 'TOGGLE_COMPLETE'
+const DELETE_TODO = 'DELETE_TODO'
 
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value)
-  }
-
-  const handleAddTodo = () => {
-    if (inputValue.trim() !== '') {
-      const newTodo = {
-        id: Date.now(),
-        text: inputValue,
+// Reducer function
+function todoReducer (todos, action) {
+  switch (action.type) {
+    case ADD_TODO: {
+      return [...todos, {
+        id: action.id,
+        text: action.text,
         completed: false
-      }
-
-      setTodos([...todos, newTodo])
-      setInputValue('')
+      }]
+    }
+    case TOGGLE_COMPLETE: {
+      return todos.map(t => {
+        if (t.id === action.id) {
+          return {
+            ...t,
+            completed: !t.completed
+          }
+        } else {
+          return t
+        }
+      })
+    }
+    case DELETE_TODO: {
+      return todos.filter(t => t.id !== action.id)
+    }
+    default: {
+      throw Error('Unknown action: ' + action.type)
     }
   }
+}
 
-  const handleToggleComplete = (index) => {
-    const updatedTodos = todos.map((todo, i) => {
-      if (i === index) {
-        return { ...todo, completed: !todo.completed }
-      }
-      return todo
+export default function App () {
+  const [todos, dispatch] = useReducer(
+    todoReducer,
+    []
+  )
+
+  function handleAddTodo (todoText) {
+    dispatch({
+      type: ADD_TODO,
+      id: Date.now(),
+      text: todoText
     })
-
-    setTodos(updatedTodos)
-
-    const updatedCompletedTodos = updatedTodos.filter((todo) => todo.completed)
-    setCompletedTodos(updatedCompletedTodos)
   }
 
-  const handleDeleteTodo = (id) => {
-    const updatedTodos = todos.filter((todo) => {
-      return todo.id !== id || !todo.completed
+  function handleToggleComplete (todoId) {
+    dispatch({
+      type: TOGGLE_COMPLETE,
+      id: todoId
     })
+  }
 
-    setTodos(updatedTodos)
-
-    const updatedCompleted = completedTodos.filter((todo) => {
-      return todo.id !== id || !todo.completed
+  function handleDeleteTodo (todoId) {
+    dispatch({
+      type: DELETE_TODO,
+      id: todoId
     })
-    setCompletedTodos(updatedCompleted)
   }
 
   return (
-    <div className= "App">
-      <h1>Todo List</h1>
+    <div className='App'>
+      <h1>Todo App</h1>
       <TodoInput
-        inputValue={inputValue}
-        handleInputChange={handleInputChange}
-        handleAddTodo={handleAddTodo}
-        />
-      <div className="list-container">
+        onAddTodo={handleAddTodo}
+      />
+      <div className='list-container'>
         <TodoList
           todos={todos}
-          completedTodos={completedTodos}
-          handleToggleComplete={handleToggleComplete}
-          handleDeleteTodo={handleDeleteTodo}
-          />
+          onToggleComplete={handleToggleComplete}
+          onDeleteTodo={handleDeleteTodo}
+        />
+        <CompletedTodos
+          todos={todos}
+        />
       </div>
     </div>
   )
 }
-
-export default App

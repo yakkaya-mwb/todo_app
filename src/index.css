@@ -10,6 +10,7 @@
 h1 {
   color: #fa5788;
   font-size: 50px;
+  font-family: 'Heebo';
 }
 
 .App {
@@ -24,7 +25,7 @@ h1 {
   padding: 20px;
 }
 
-.completed{
+.completed-todos{
   color: #fa5788;
 }
 
@@ -32,7 +33,24 @@ h1 {
   display: flex;
 }
 
-#todo-container{
+.list-container h2{
+  font-family: 'DM Sans';
+  white-space: nowrap;
+}
+
+.list-container button{
+  margin-left: 10px;
+}
+
+.list-container input{
+  margin-right: 3px;
+}
+
+.todo-container li{
+  white-space: nowrap;
+}
+
+#list{
   flex: 1;
   margin-right: 40px;
   margin-left: 40px;
@@ -41,13 +59,6 @@ h1 {
   padding: 10px;
 }
 
-#todo-container h2{
-  white-space: nowrap;
-  font-family: 'DM Sans', sans-serif;
-  text-transform: uppercase;
-}
-
-.completed span{
-  color: #fa5788;
-  margin-right: 10px;
+#list h2{
+  text-align: center;
 }
