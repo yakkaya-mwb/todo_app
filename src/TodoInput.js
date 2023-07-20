@@ -1,24 +1,41 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import { addTodo } from './redux/actions'
 import PropTypes from 'prop-types'
 
-const TodoInput = ({ inputValue, handleInputChange, handleAddTodo }) => {
+function TodoInput ({ addTodo }) {
+  const [text, setText] = useState('')
+
+  const handleChange = (e) => {
+    setText(e.target.value)
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (text.trim() === '') return
+    const newId = Date.now()
+    addTodo(newId, text)
+    setText('')
+  }
+
   return (
-        <div className="input-container">
-      <input
-        type="text"
-        value={inputValue}
-        onChange={handleInputChange}
-        placeholder="Enter a task"
-      />
-      <button onClick={handleAddTodo}>Add</button>
+    <div className='input-container'>
+      <form onSubmit={handleSubmit} className='todo-input'>
+        <input type='text' value={text} onChange={handleChange} placeholder='Enter a new todo' />
+        <button type='submit'>Add Todo</button>
+      </form>
     </div>
   )
 }
 
 TodoInput.propTypes = {
-  inputValue: PropTypes.string.isRequired,
-  handleInputChange: PropTypes.func.isRequired,
-  handleAddTodo: PropTypes.func.isRequired
+  addTodo: PropTypes.func.isRequired
 }
 
-export default TodoInput
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addTodo: (id, text) => dispatch(addTodo(id, text))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(TodoInput)
