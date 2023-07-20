@@ -1,6 +1,7 @@
 import React from './index.js'
 import TodoInput from './TodoInput'
 import TodoList from './TodoList'
+import CompletedTodos from './CompletedTodos.js'
 import { useState } from 'react'
 
 function App () {
@@ -32,22 +33,19 @@ function App () {
       }
       return todo
     })
-
     setTodos(updatedTodos)
-
     const updatedCompletedTodos = updatedTodos.filter((todo) => todo.completed)
     setCompletedTodos(updatedCompletedTodos)
   }
 
   const handleDeleteTodo = (id) => {
     const updatedTodos = todos.filter((todo) => {
-      return todo.id !== id || !todo.completed
+      return todo.id !== id
     })
-
     setTodos(updatedTodos)
 
     const updatedCompleted = completedTodos.filter((todo) => {
-      return todo.id !== id || !todo.completed
+      return todo.id !== id
     })
     setCompletedTodos(updatedCompleted)
   }
@@ -63,9 +61,11 @@ function App () {
       <div className="list-container">
         <TodoList
           todos={todos}
-          completedTodos={completedTodos}
           handleToggleComplete={handleToggleComplete}
           handleDeleteTodo={handleDeleteTodo}
+          />
+        <CompletedTodos
+          completedTodos={completedTodos}
           />
       </div>
     </div>
