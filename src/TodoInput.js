@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import { React, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { addTodo } from './redux/actions'
-import PropTypes from 'prop-types'
 
-function TodoInput ({ addTodo }) {
+function TodoInput () {
+  const dispatch = useDispatch()
   const [text, setText] = useState('')
 
   const handleChange = (e) => {
@@ -14,7 +14,7 @@ function TodoInput ({ addTodo }) {
     e.preventDefault()
     if (text.trim() === '') return
     const newId = Date.now()
-    addTodo(newId, text)
+    dispatch(addTodo(newId, text))
     setText('')
   }
 
@@ -28,14 +28,4 @@ function TodoInput ({ addTodo }) {
   )
 }
 
-TodoInput.propTypes = {
-  addTodo: PropTypes.func.isRequired
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addTodo: (id, text) => dispatch(addTodo(id, text))
-  }
-}
-
-export default connect(null, mapDispatchToProps)(TodoInput)
+export default TodoInput

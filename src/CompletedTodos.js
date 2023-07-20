@@ -1,10 +1,9 @@
-import React from 'react'
+import { React } from 'react'
 import { useSelector } from 'react-redux'
-import PropTypes from 'prop-types'
+import { getCompletedTodos } from './redux/selectors'
 
 function CompletedTodos () {
-  const todos = useSelector((state) => state.todos)
-  const completedTodos = todos.filter((todo) => todo.completed)
+  const completedTodos = useSelector(getCompletedTodos)
   return (
     <div className="completed-todos" id='list'>
         <h2>Completed Todos</h2>
@@ -15,16 +14,6 @@ function CompletedTodos () {
         </ul>
     </div>
   )
-}
-
-CompletedTodos.propTypes = {
-  todos: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      text: PropTypes.string.isRequired,
-      completed: PropTypes.bool.isRequired
-    })
-  ).isRequired
 }
 
 export default CompletedTodos
