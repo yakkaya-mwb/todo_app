@@ -1,37 +1,27 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { getAllTodos } from './redux/selectors'
+import { toggleComplete, deleteTodo } from './redux/actions'
+import { useDispatch, useSelector } from 'react-redux'
 
-const TodoList = ({ todos, handleToggleComplete, handleDeleteTodo }) => {
+export default function TodoList () {
+  const dispatch = useDispatch()
+  const todos = useSelector(getAllTodos)
   return (
     <div className='todo-container' id='list'>
-          <h2>Todo</h2>
-          <ul>
-          {todos.map((todo, index) => (
-            <li key={index}>
+        <h2>Todo</h2>
+        <ul>
+          {todos.map((todo) => (
+            <li key={todo.id}>
               <input
-              type="checkbox"
-              checked={todo.completed}
-              onChange={() => handleToggleComplete(index)}
+                type="checkbox"
+                checked={todo.completed}
+                onChange={() => dispatch(toggleComplete(todo.id))}
               />
               <span>{todo.text}</span>
-              <button onClick={() => handleDeleteTodo(todo.id)}>Delete</button>
+              <button onClick={() => dispatch(deleteTodo(todo.id))}>Delete</button>
             </li>
           ))}
         </ul>
-    </div>
+      </div>
   )
 }
-
-TodoList.propTypes = {
-  todos: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      text: PropTypes.string.isRequired,
-      completed: PropTypes.bool.isRequired
-    })
-  ).isRequired,
-  handleToggleComplete: PropTypes.func.isRequired,
-  handleDeleteTodo: PropTypes.func.isRequired
-}
-
-export default TodoList
