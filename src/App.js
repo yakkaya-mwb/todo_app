@@ -1,9 +1,10 @@
-import { React } from 'react'
+import React from 'react'
 import { Provider } from 'react-redux'
 import store from './redux/store'
 import TodoInput from './TodoInput'
 import TodoList from './TodoList'
 import CompletedTodos from './CompletedTodos'
+
 
 export default function App () {
   return (

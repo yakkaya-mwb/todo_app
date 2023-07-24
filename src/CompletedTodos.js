@@ -1,8 +1,8 @@
-import { React } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { getCompletedTodos } from './redux/selectors'
 
-function CompletedTodos () {
+export default function CompletedTodos () {
   const completedTodos = useSelector(getCompletedTodos)
   return (
     <div className="completed-todos" id='list'>
@@ -15,5 +15,3 @@ function CompletedTodos () {
     </div>
   )
 }
-
-export default CompletedTodos

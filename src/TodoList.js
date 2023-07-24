@@ -1,9 +1,9 @@
-import { React } from 'react'
+import React from 'react'
 import { getAllTodos } from './redux/selectors'
 import { toggleComplete, deleteTodo } from './redux/actions'
 import { useDispatch, useSelector } from 'react-redux'
 
-function TodoList () {
+export default function TodoList () {
   const dispatch = useDispatch()
   const todos = useSelector(getAllTodos)
   return (
@@ -25,5 +25,3 @@ function TodoList () {
       </div>
   )
 }
-
-export default TodoList
