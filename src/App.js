@@ -5,7 +5,6 @@ import TodoInput from './TodoInput'
 import TodoList from './TodoList'
 import CompletedTodos from './CompletedTodos'
 
-
 export default function App () {
   return (
     <Provider store={store}>
