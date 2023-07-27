@@ -1,5 +1,6 @@
 import React from 'react'
 import TodoList from './TodoList'
+import '@testing-library/jest-dom/extend-expect'
 import { jest, describe, expect, test } from '@jest/globals'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,7 +15,7 @@ describe('TodoList Component', () => {
       { id: 2, text: 'Todo 2', completed: true }
     ]
     useSelector.mockReturnValue(mockTodos)
-    render(<TodoList />)
+    render(<TodoList/>)
     mockTodos.forEach((todo) => {
       const todoTextElement = screen.getByText(todo.text)
       expect(todoTextElement).toBeInTheDocument()
@@ -43,7 +44,7 @@ describe('TodoList Component', () => {
     const mockDispatch = jest.fn()
     useDispatch.mockReturnValue(mockDispatch)
 
-    render(<TodoList />)
+    render(<TodoList/>)
 
     const deleteButton = screen.getByRole('button', { name: /Delete/i })
     fireEvent.click(deleteButton)

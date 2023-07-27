@@ -1,6 +1,8 @@
 import { ADD_TODO, TOGGLE_COMPLETE, DELETE_TODO } from './actions'
 
-const initialState = []
+const initialState = {
+  todos: []
+}
 
 const todoReducer = (state = initialState, action) => {
   switch (action.type) {
